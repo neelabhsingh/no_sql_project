@@ -41,7 +41,14 @@ DATABASES = {
 ALLOWED_HOSTS = []
 ES_HOST = 'localhost'
 ES_PORT = 9200
-
+# haystack settings
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://{host}:{port}/'.format(host=ES_HOST, port=ES_PORT),
+        'INDEX_NAME': 'haystack',
+    },
+}
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,25 +60,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'haystack',
     'elasticstack',
+    'base',
+    'elasticSearch',
+    'polls'
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-# haystack settings
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://{host}:{port}/'.format(host=ES_HOST, port=ES_PORT),
-        'INDEX_NAME': 'haystack',
-    },
-}
+
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
